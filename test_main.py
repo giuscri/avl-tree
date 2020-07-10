@@ -1,4 +1,4 @@
-from .main import insert, left_rotate, right_rotate
+from .main import BSTNode, insert, left_rotate, right_rotate
 
 def test_insert():
     t = insert(None, 1)
@@ -8,9 +8,9 @@ def test_insert():
     assert repr(t) == "1 3 5 10"
 
 def test_left_rotate():
-    t = insert(None, 1)
-    t = insert(t, 2)
-    t = insert(t, 3)
+    t = BSTNode(1)
+    t.right = BSTNode(2)
+    t.right.right = BSTNode(2)
     t = left_rotate(t)
     assert t.data == 2
     assert t.left.data == 1
@@ -18,9 +18,9 @@ def test_left_rotate():
     assert t.height == 1
 
 def test_right_rotate():
-    t = insert(None, 2)
-    t = insert(t, 1)
-    t = insert(t, 3)
+    t = BSTNode(2)
+    t.left = BSTNode(1)
+    t.right = BSTNode(3)
     t = right_rotate(t)
     assert t.data == 1
     assert t.height == 2

@@ -21,6 +21,7 @@ class BSTNode:
 
         return max(lh, rh) + 1
 
+    @property
     def balanced(self) -> int:
         if self.left is None:
             lh = -1
@@ -53,9 +54,27 @@ def insert(node: Optional[BSTNode], x: int) -> BSTNode:
 
     if x > node.data:
         node.right = insert(node.right, x)
+
+        if not node.balanced and x > node.data and node.right is not None and x > node.right.data: # right-right case
+            node = left_rotate(node)
+            assert node is not None
+        elif not node.balanced and x > node.data and node.right and x < node.right.data: # right-left case
+            node.right = right_rotate(node.right)
+            node = left_rotate(node)
+            assert node is not None
+
         return node
     elif x < node.data:
         node.left = insert(node.left, x)
+
+        if not node.balanced and x < node.data and node.left and x < node.left.data: # left-left case
+            node = right_rotate(node)
+            assert node is not None
+        elif not node.balanced and x < node.data and node.left and x > node.left.data: # left-right case
+            node.left = left_rotate(node.left)
+            node = right_rotate(node)
+            assert node is not None
+
         return node
     else:
         raise RuntimeError("can't tolerate duplicate key")

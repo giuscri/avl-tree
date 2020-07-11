@@ -10,7 +10,7 @@ def test_insert():
 def test_left_rotate():
     t = BSTNode(1)
     t.right = BSTNode(2)
-    t.right.right = BSTNode(2)
+    t.right.right = BSTNode(3)
     t = left_rotate(t)
     assert t.data == 2
     assert t.left.data == 1

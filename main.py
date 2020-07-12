@@ -79,6 +79,40 @@ def insert(node: Optional[BSTNode], x: int) -> BSTNode:
     else:
         raise RuntimeError("can't tolerate duplicate key")
 
+def delete(t: Optional[BSTNode], x: int) -> Optional[BSTNode]:
+    if t is None:
+        return t
+
+    if t.data == x and t.left is None:
+        t = t.right
+    elif t.data == x:
+        t = right_rotate(t)
+        t = delete(t.right, x)
+    elif x < t.data:
+        t.left = delete(t.left, x)
+    else:
+        t.right = delete(t.right, x)
+
+    if t is None:
+        return t
+
+    if t.left is None:
+        lh = -1
+    else:
+        lh = t.left.height
+
+    if t.right is None:
+        rh = -1
+    else:
+        rh = t.right.height
+
+    if lh - rh > 1: # left-heavy
+        t = right_rotate(t)
+    elif lh - rh < -1: # right-heavy
+        t = left_rotate(t)
+
+    return t
+
 def right_rotate(y: Optional[BSTNode]):
     if y is None:
         return None
@@ -104,6 +138,18 @@ def left_rotate(x: Optional[BSTNode]):
     y.left = x
 
     return y
+
+def search(t: Optional[BSTNode], x: int) -> bool:
+    if t is None:
+        return False
+
+    if t.data == x:
+        return True
+
+    if x < t.data:
+        return search(t.left, x)
+    else:
+        return search(t.right, x)
 
 if __name__ == "__main__":
     pass
